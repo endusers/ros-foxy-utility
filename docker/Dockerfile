@@ -1,4 +1,12 @@
+ARG UID=1000
+ARG GID=1000
+ARG USER_NAME=docker
+
 FROM ros:foxy
+
+ARG UID
+ARG GID
+ARG USER_NAME
 
 SHELL ["/bin/bash", "-c"]
 

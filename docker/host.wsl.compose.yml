@@ -1,0 +1,31 @@
+
+services:
+
+    ros2-foxy-utility:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+            - UID=${UID}
+            - GID=${GID}
+            - USER_NAME=${USER_NAME}
+        image: rosenv:ros2-foxy-utility
+        container_name: ros2-foxy-utility
+        network_mode: host
+        privileged: true
+        #security_opt:
+        #- apparmor:unconfined
+        #stdin_open: true
+        tty: true
+        environment:
+        - DISPLAY=${DISPLAY}
+        - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
+        - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
+        - PULSE_SERVER=${PULSE_SERVER}
+        - ROS_DOMAIN_ID=${ROS_DOMAIN_ID}
+        volumes:
+        - /dev:/dev
+        - /tmp/.X11-unix:/tmp/.X11-unix
+        - /mnt/wslg:/mnt/wslg
+        - ${PWD}/home:/home/${USER_NAME}/mnt
+        - ${PWD}/tmp:/home/${USER_NAME}/mnt/tmp

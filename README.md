@@ -13,12 +13,13 @@ NVIDIAのGPUが有る場合と無い場合
 
 ## 動作環境
 
-- Ubuntu 18.04, 20.04
-- Windows 10
+- Ubuntu 18.04, 20.04, 22.04
+- Windows 11
 - Docker
 - Docker Compose
 - Nvidia Docker(NVIDIA GPUを使用する場合)
-- X Window System(VcXsrv.etc)(WSLを使用する場合)
+- WSLg or X Window System(VcXsrv.etc)(WSLを使用する場合)
+- go-task
 
 ## 使用方法
 
@@ -30,34 +31,34 @@ NVIDIAのGPUが有る場合と無い場合
 
 - ホストとのデータの共有は下記マウント済みの領域が使用できる
 
-  ホストの「foxy-official-01/ros-foxy-official/home」を「/home/docker/mnt」にマウント
-  ホストの「foxy-official-01/ros-foxy-official/tmp」を「/home/docker/mnt/tmp」にマウント
+  ホストの「ros-foxy-utility/docker/home」を「/home/docker/mnt」にマウント
+  ホストの「ros-foxy-utility/docker/tmp」を「/home/docker/mnt/tmp」にマウント
 
 ### コンテナを起動する(docker-compose-up)
 
 - bridgeネットワークを使用する場合 (シミュレーション環境を想定)
 
   ```bash
-  ./ros2-foxy-official-01-up-bridge.sh
+  task up-bridge
   ```
 
 - hostネットワークを使用する場合 (実機環境を想定)
 
   ```bash
-  ./ros2-foxy-official-01-up-host.sh
+  task up-host
   ```
 
-※INTEL GPU を使用している場合は「-i」オプションを付ける
-※WSL を使用している場合は「-w」オプションを付ける
+※GPU を未使用の場合は .env の RUNTIME_ENV に nogpu を設定する  
+※WSL を使用している場合は .env の RUNTIME_ENV に wsl を設定する  
 
 ### コンテナに入る(docker-compose-exe)
 
   ```bash
-  ./ros2-foxy-official-01-exec.sh
+  task exec
   ```
 
 ### コンテナを停止する(docker-compose-stop)
 
   ```bash
-  ./ros2-foxy-official-01-stop.sh
+  task stop
   ```
