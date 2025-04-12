@@ -1,4 +1,12 @@
+ARG UID=1000
+ARG GID=1000
+ARG USER_NAME=docker
+
 FROM ros:foxy
+
+ARG UID
+ARG GID
+ARG USER_NAME
 
 SHELL ["/bin/bash", "-c"]
 
@@ -15,7 +23,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     traceroute \
     zip \
     unzip \
-    psmisc
+    psmisc \
+    python3-pip
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-foxy-rqt-tf-tree \
@@ -31,7 +40,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-foxy-pointcloud-to-laserscan \
     ros-foxy-depthimage-to-laserscan \
     ros-foxy-geographic-msgs \
-    libgeographic-dev
+    libgeographic-dev \
+    ros-foxy-rosbag2-storage-mcap \
+    ros-foxy-geometry2 \
+    ros-foxy-tf2-geometry-msgs \
+    python3-pykdl
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-foxy-test-msgs \
@@ -107,11 +120,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-foxy-librealsense2
 
+RUN pip install mcap-ros2-support
+RUN pip install fiona==1.8.22
+RUN pip install pandas
+RUN pip install geopandas
+
 RUN useradd -m docker
 RUN echo "docker:docker" | chpasswd
 RUN adduser docker sudo
 
 RUN usermod -a -G audio docker
+RUN usermod -a -G dialout docker
 
 USER docker
 

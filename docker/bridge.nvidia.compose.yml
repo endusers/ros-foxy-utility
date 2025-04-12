@@ -1,0 +1,28 @@
+
+services:
+
+    ros2-foxy-utility:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+            - UID=${UID}
+            - GID=${GID}
+            - USER_NAME=${USER_NAME}
+        image: rosenv:ros2-foxy-utility
+        container_name: ros2-foxy-utility
+        runtime: nvidia
+        #stdin_open: true
+        tty: true
+        devices:
+        - /dev/snd:/dev/snd
+        environment:
+        - DISPLAY=${DISPLAY}
+        - NVIDIA_VISIBLE_DEVICES=all
+        - NVIDIA_DRIVER_CAPABILITIES=all
+        - ROS_DOMAIN_ID=${ROS_DOMAIN_ID}
+        volumes:
+        - /dev:/dev
+        - /tmp/.X11-unix:/tmp/.X11-unix
+        - ${PWD}/home:/home/${USER_NAME}/mnt
+        - ${PWD}/tmp:/home/${USER_NAME}/mnt/tmp
